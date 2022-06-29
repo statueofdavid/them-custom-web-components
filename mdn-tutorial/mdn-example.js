@@ -51,5 +51,14 @@ class PopUpInfo extends HTMLElement {
     }
 }
 
+class ExpandingList extends HTMLUListElement {
+     constructor() {
+          super();
+     }
+}
+
+
+
+customElements.define('expanding-list', ExpandingList, { extends: "ul" });
 customElements.define('popup-info', PopUpInfo);
 customElements.define('word-count', WordCount, { extends: 'p' });
