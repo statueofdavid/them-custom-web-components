@@ -1,53 +1,54 @@
 class WordCount extends HTMLParagraphElement {
   constructor() {
-    // Always call super first in constructor
     super();
-    // Element functionality written in here
   }
 }
 
 class PopUpInfo extends HTMLElement {
-	constructor() {
-    		// Always call super first in constructor
-    		super();
-    		// write element functionality in here
-		// Create a shadow root
-		this.attachShadow(
-			{
-				mode: 'open'
-			}); // sets and returns 'this.shadowRoot'
+    constructor() {
+      super();
+      const shadow = this.attachShadow({mode: 'open'});
 
-		// Create (nested) span elements
-		const wrapper = document.createElement('span');
-		wrapper.setAttribute('class','wrapper');
-		const icon = wrapper.appendChild(
-			document.createElement('span'));
+      const wrapper = document.createElement('span');
+      wrapper.setAttribute('class', 'wrapper');
 
-		icon.setAttribute('class','icon');
-		icon.setAttribute('tabindex', 0);
-		// Insert icon from defined attribute or default icon
-		const img = icon.appendChild(
-			document.createElement('img'));
+      const icon = document.createElement('span');
+      icon.setAttribute('class', 'icon');
+      icon.setAttribute('tabindex', 0);
 
-		img.src = this.hasAttribute(
-			'img') ? this.getAttribute(
-				'img') : 'img/default.png';
+      const info = document.createElement('span');
+      info.setAttribute('class', 'info');
 
-		const info = wrapper.appendChild(
-			document.createElement('span'));
+      console.log(this.attributes);
+      console.log(this.getAttributeNames());
+      console.log(this.hasAttribute('data-text'));
+      
+      const text = this.getAttribute('data-text');
+      info.textContent = text;
 
-		info.setAttribute('class','info');
-		// Take attribute content and put it inside the info span
-		info.textContent = this.getAttribute('data-text');
+      console.log(text);
 
-		// Create some CSS to apply to the shadow DOM
-		const style = document.createElement('style');
-		
-		style.textContent = '.wrapper {' +
-		// CSS truncated for brevity
-		// attach the created elements to the shadow DOM
-		this.shadowRoot.append(style,wrapper);
-	}
+      let imgUrl;
+      if(this.hasAttribute('img')) {
+        imgUrl = this.getAttribute('img');
+      } else {
+        imgUrl = 'img/info_actual.png';
+      }
+
+      const img = document.createElement('img');
+      img.src = imgUrl;
+      icon.appendChild(img);
+
+      const linkElem = document.createElement('link');
+      linkElem.setAttribute('rel', 'stylesheet');
+      linkElem.setAttribute('href', 'style.css');
+
+      shadow.appendChild(linkElem);
+      shadow.appendChild(wrapper);
+      wrapper.appendChild(icon);
+      wrapper.appendChild(info);
+      console.log(info.isConnected);
+    }
 }
 
 customElements.define('popup-info', PopUpInfo);
